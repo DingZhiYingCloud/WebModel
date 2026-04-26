@@ -1,0 +1,11 @@
+{% extends 'template.html'%}
+
+{% block title %}网页标题占位区{% endblock %}
+
+{% block head %}{% endblock %}
+
+{% block body %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block js %}{% endblock %}

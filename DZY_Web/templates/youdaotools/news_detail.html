@@ -1,0 +1,280 @@
+{% load static %}<!doctype html>
+<html lang="zh-cn" dir="ltr" class="scroll-smooth" data-default-appearance="light" data-auto-appearance="false">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-language" content="zh-cn">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{ article.title }} - 有道翻译 | 有道翻译官网</title>
+  <meta name="description" content="{{ article.title }}">
+  <link type="text/css" rel="stylesheet" href="{% static 'youdaotools/css/main.bundle.min.css' %}">
+  <style>
+    #search-wrapper { display: none !important; }
+    #menu-wrapper { display: none !important; }
+    /* 文章内图片自适应 */
+    .article-content img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600" href="#main-content">
+      <span class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>跳过正文
+    </a>
+  </div>
+
+  <!-- 导航栏 -->
+  <div class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start gap-x-3 pt-[2px] pr-0 pb-[3px] pl-0">
+    <div class="flex flex-1 items-center justify-between">
+      <nav class="flex space-x-3">
+        <a href="{% url 'youdaotools_index' %}" class="text-base font-medium text-gray-500 hover:text-gray-900">
+          有道翻译 | 有道翻译官网
+        </a>
+      </nav>
+      <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+        <a href="{% url 'youdaotools_index' %}" class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+          <p class="text-base font-medium">首页</p>
+        </a>
+        <a href="{% url 'youdaotools_faq' %}" class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+          <p class="text-base font-medium">常见问题</p>
+        </a>
+        <a href="{% url 'youdaotools_news' %}" class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+          <p class="text-base font-medium">新闻资讯</p>
+        </a>
+        <a href="#" class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+          <p class="text-base font-medium">电脑版下载</p>
+        </a>
+        <button aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400" title="搜索">
+          <span class="relative block icon">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+          </span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+
+      <article>
+        <header id="single_header" class="mt-5 max-w-prose">
+          <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+            {{ article.title }}
+          </h1>
+          <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+            <div class="flex flex-row flex-wrap items-center">
+              <span>{{ article.word_count }} 字</span>
+              <span class="px-2 text-primary-500">&middot;</span>
+              <span title="预计阅读">{{ article.reading_time }} 分钟</span>
+            </div>
+          </div>
+          <div class="mb-5"></div>
+        </header>
+
+        <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+
+          <!-- 目录（桌面端）- 由 JS 自动生成 -->
+          <div class="order-first lg:ml-auto px-0 lg:order-last ltr:lg:pl-8 rtl:lg:pr-8">
+            <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-10">
+              <details open id="TOCView" class="toc-right mt-0 overflow-y-auto overscroll-contain scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600 rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 hidden lg:block">
+                <summary class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">目录</summary>
+                <div class="min-w-[220px] py-2 border-dotted ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
+                  <nav id="TableOfContents"></nav>
+                </div>
+              </details>
+              <!-- 目录（移动端） -->
+              <details class="toc-inside mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 lg:hidden">
+                <summary class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">目录</summary>
+                <div class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
+                  <nav id="TableOfContentsMobile"></nav>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <!-- 文章正文 -->
+          <div class="min-w-0 min-h-0 max-w-fit">
+            <div class="article-content max-w-prose mb-20">
+              {{ content|safe }}
+            </div>
+
+            <!-- 相关文章 -->
+            {% if related_articles %}
+            <h2 class="mt-8 text-2xl font-extrabold mb-10">相关文章</h2>
+            <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+              {% for related in related_articles %}
+              <a href="{% url 'youdaotools_detail' related.id %}" class="min-w-full">
+                <div class="min-h-full border border-neutral-200 dark:border-neutral-700 border-2 rounded overflow-hidden shadow-2xl relative">
+                  {% if related.cover_image %}
+                  <div class="w-full thumbnail_card_related nozoom" style="background-image:url({{ related.cover_image }});"></div>
+                  {% endif %}
+                  <div class="px-6 py-4">
+                    <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
+                      {{ related.title }}
+                    </div>
+                    <div class="text-sm text-neutral-500 dark:text-neutral-400">
+                      <div class="flex flex-row flex-wrap items-center">
+                        <span>{{ related.word_count }} 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">{{ related.reading_time }} 分钟</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="px-6 pt-4 pb-2"></div>
+                </div>
+              </a>
+              {% endfor %}
+            </section>
+            {% endif %}
+          </div>
+        </section>
+
+        <!-- 上一篇 / 下一篇 -->
+        <footer class="pt-8 max-w-prose print:hidden">
+          <div class="pt-8">
+            <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+            <div class="flex justify-between pt-3">
+              <span>
+                {% if prev_article %}
+                <a class="flex group mr-3" href="{% url 'youdaotools_detail' prev_article.id %}">
+                  <span class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400">&larr;</span>
+                  <span class="flex flex-col">
+                    <span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">{{ prev_article.title }}</span>
+                    <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                      {{ prev_article.word_count }} 字 &middot; {{ prev_article.reading_time }} 分钟
+                    </span>
+                  </span>
+                </a>
+                {% endif %}
+              </span>
+              <span>
+                {% if next_article %}
+                <a class="flex text-right group ml-3" href="{% url 'youdaotools_detail' next_article.id %}">
+                  <span class="flex flex-col">
+                    <span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">{{ next_article.title }}</span>
+                    <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                      {{ next_article.word_count }} 字 &middot; {{ next_article.reading_time }} 分钟
+                    </span>
+                  </span>
+                  <span class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400">&rarr;</span>
+                </a>
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        </footer>
+      </article>
+
+      <!-- 返回顶部 -->
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+        <a href="#the-top" class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label="返回顶部" title="返回顶部">&uarr;</a>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-neutral-100 dark:bg-neutral-700 pt-16 pb-10 rounded-xl mt-10">
+      <div class="max-w-7xl mx-auto px-5">
+        <div class="flex flex-col lg:flex-row justify-between pb-10 border-b border-gray-200">
+          <div class="lg:w-1/4 mb-10 lg:mb-0 ltr:pr-2">
+            <img src="https://youdaotools.com/img/logo.png" alt="Logo" class="h-6 mb-5">
+            <p class="text-neutral-700 dark:text-neutral-100 text-sm leading-relaxed">专注于提供最专业的翻译解决方案，让语言不再成为障碍</p>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-10 lg:w-2/3">
+            <div>
+              <h3 class="text-sm font-medium text-neutral-800 dark:text-neutral-100 mb-5">产品</h3>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">下载客户端</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">在线使用</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">功能介绍</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">价格方案</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-neutral-800 dark:text-neutral-100 mb-5">支持</h3>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">帮助中心</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">使用教程</a></li>
+                <li><a href="{% url 'youdaotools_faq' %}" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">常见问题</a></li>
+                <li><a href="#" class="text-neutral-500 dark:text-neutral-400 text-sm hover:text-primary-500 dark:hover:text-primary-400">联系我们</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-neutral-800 dark:text-neutral-100 mb-5">资源</h3>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">翻译API</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">开发文档</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">合作伙伴</a></li>
+                <li><a href="#" class="text-sm text-neutral-700 dark:text-neutral-200 hover:text-primary-500 dark:hover:text-primary-400">技术博客</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-neutral-800 dark:text-neutral-100 mb-5">关于</h3>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">公司介绍</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">加入我们</a></li>
+                <li><a href="{% url 'youdaotools_news' %}" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">新闻动态</a></li>
+                <li><a href="#" class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">商务合作</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row justify-between items-center mt-10 text-sm text-neutral-500 dark:text-neutral-400">
+          <div class="flex gap-5 mb-5 lg:mb-0">
+            <img src="https://youdaotools.com/img/t1.png" alt="微博" class="w-5 h-5 mt-0 mb-0">
+            <img src="https://youdaotools.com/img/t2.png" alt="微信" class="w-5 h-5 mt-0 mb-0">
+            <img src="https://youdaotools.com/img/t3.png" alt="知乎" class="w-5 h-5 mt-0 mb-0">
+          </div>
+          <div class="text-center md:text-right">
+            <span>&copy; 2026 翻译助手. All rights reserved.</span>
+            <a href="#" class="ml-5 text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">隐私政策</a>
+            <a href="#" class="ml-5 text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400">服务条款</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 自动生成目录脚本 -->
+  <script>
+  (function() {
+    var content = document.querySelector('.article-content');
+    if (!content) return;
+    var headings = content.querySelectorAll('h2, h3');
+    if (headings.length === 0) return;
+
+    function buildTOC(container) {
+      var ul = document.createElement('ul');
+      var currentH2 = null;
+      headings.forEach(function(h) {
+        if (!h.id) {
+          h.id = h.textContent.trim().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-+|-+$/g, '');
+        }
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+
+        if (h.tagName === 'H2') {
+          ul.appendChild(li);
+          currentH2 = li;
+        } else if (h.tagName === 'H3' && currentH2) {
+          if (!currentH2.querySelector('ul')) {
+            var subUl = document.createElement('ul');
+            currentH2.appendChild(subUl);
+          }
+          currentH2.querySelector('ul').appendChild(li);
+        } else {
+          ul.appendChild(li);
+        }
+      });
+      container.appendChild(ul);
+    }
+
+    var tocDesktop = document.getElementById('TableOfContents');
+    var tocMobile = document.getElementById('TableOfContentsMobile');
+    if (tocDesktop) buildTOC(tocDesktop);
+    if (tocMobile) buildTOC(tocMobile);
+  })();
+  </script>
+
+</body>
+</html>

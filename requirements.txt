@@ -1,0 +1,8 @@
+-i https://pypi.tuna.tsinghua.edu.cn/simple
+Django
+django-cors-headers
+cryptography
+requests
+loguru
+python-dotenv
+Pillow

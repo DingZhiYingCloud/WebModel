@@ -1,0 +1,10 @@
+# 文章模块专属状态码（区间：2000 ~ 2099）
+
+ARTICLE_NOT_FOUND = 2001          # 文章不存在
+ARTICLE_SLUG_EXISTS = 2002        # 路径名称已存在
+ARTICLE_CREATE_FAILED = 2003      # 文章创建失败
+ARTICLE_UPDATE_FAILED = 2004      # 文章更新失败
+ARTICLE_DELETE_FAILED = 2005      # 文章删除失败
+ARTICLE_FILE_SAVE_FAILED = 2006   # 文章文件保存失败
+ARTICLE_FILE_READ_FAILED = 2007   # 文章文件读取失败
+ARTICLE_FILE_DELETE_FAILED = 2008 # 文章文件删除失败
