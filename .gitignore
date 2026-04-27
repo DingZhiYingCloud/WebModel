@@ -11,12 +11,15 @@ __pycache__/
 # 虚拟环境
 .venv/
 
-# 环境变量（含敏感信息）
-.env
-.env.*
+
 
 # 敏感配置
 **/env.json
+.env
+
+# AI工具配置
+.codebuddy/
+.trae/
 
 # 日志文件
 *.log
@@ -42,5 +45,4 @@ TuLianVenv/
 unpackage/
 Test/
 
-# Codebuddy 数据
-.codebuddy/
+

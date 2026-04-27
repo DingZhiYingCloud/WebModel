@@ -11,3 +11,4 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ["created_at"]
     readonly_fields = ["word_count", "reading_time", "created_at", "updated_at"]
     ordering = ["-created_at"]
+    
