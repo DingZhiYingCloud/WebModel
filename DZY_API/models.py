@@ -10,6 +10,11 @@ class Article(models.Model):
     content_path = models.CharField(max_length=500, verbose_name="HTML内容文件相对路径（相对于MEDIA_ROOT）")
     word_count = models.IntegerField(default=0, verbose_name="字数（自动计算）")
     reading_time = models.IntegerField(default=0, verbose_name="阅读时长/分钟（自动计算）")
+    site = models.CharField(
+        max_length=50,
+        default='default',
+        verbose_name="所属站点标识（对应 .env 中的 SITE_SLUG，用于按站点筛选文章）"
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新时间")
 

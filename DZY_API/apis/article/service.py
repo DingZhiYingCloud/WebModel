@@ -35,12 +35,21 @@ def _get_article_relative_path(slug):
 
     例：articles/my-article.html
     """
-    return os.path.join(ARTICLE_DIR, f"{slug}.html")
+    # DB 中统一使用 POSIX 路径分隔符，避免 Windows 写入 "\" 导致 Linux 读取失败
+    return f"{ARTICLE_DIR}/{slug}.html"
+
+
+def _normalize_relative_path(relative_path):
+    """标准化相对路径，兼容历史数据中的反斜杠。"""
+    path = str(relative_path or "").replace("\\", "/").lstrip("/")
+    return path
 
 
 def _get_article_full_path(relative_path):
     """获取文章 HTML 文件的绝对路径"""
-    return os.path.join(settings.MEDIA_ROOT, relative_path)
+    normalized = _normalize_relative_path(relative_path)
+    parts = [p for p in normalized.split("/") if p]
+    return os.path.join(settings.MEDIA_ROOT, *parts)
 
 
 def _save_html_file(slug, html_content):
@@ -161,7 +170,7 @@ def _get_article_or_error(article_id):
 
 # ========== 业务接口 ==========
 
-def create_article(title, slug, html_content, cover_image=""):
+def create_article(title, slug, html_content, cover_image="", site=None):
     """创建文章
 
     Args:
@@ -169,6 +178,7 @@ def create_article(title, slug, html_content, cover_image=""):
         slug: 路径名称（唯一标识，同时作为磁盘文件名）
         html_content: HTML 内容
         cover_image: 封面图 URL（可选）
+        site: 所属站点标识（可选，默认使用 settings.SITE_SLUG）
 
     Returns:
         dict: {"code": 0, "data": {...}} 或 {"code": xxx, "message": "..."}
@@ -188,6 +198,10 @@ def create_article(title, slug, html_content, cover_image=""):
     word_count = _calculate_word_count(html_content)
     reading_time = _calculate_reading_time(word_count)
 
+    # 站点标识：优先使用传入值，否则使用 settings 中的当前站点
+    if site is None:
+        site = getattr(settings, 'SITE_SLUG', 'default')
+
     # 创建数据库记录
     try:
         article = Article.objects.create(
@@ -197,6 +211,7 @@ def create_article(title, slug, html_content, cover_image=""):
             content_path=file_result["relative_path"],
             word_count=word_count,
             reading_time=reading_time,
+            site=site,
         )
         _log(f"文章创建成功: id={article.id}")
         return {"code": 0, "data": _serialize_article(article)}

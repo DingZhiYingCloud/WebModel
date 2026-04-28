@@ -58,6 +58,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'DZY_Web.context_processors.site_context',  # 注入站点变量到所有模板
             ],
         },
     },
@@ -111,8 +112,19 @@ USE_TZ = False # 开启时区支持
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'DZY_Web/static')
+STATIC_URL = '/static/'
+
+# 开发服务器查找静态文件的源目录（DEBUG=True 时生效）
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'DZY_Web', 'static'),
+]
+
+# collectstatic 输出目录（部署时 DEBUG=False 使用）
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -132,3 +144,19 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '18171759943@163.com')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_SSL = True  # 新增这行
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', '18171759943@163.com')
+
+
+# ===== 站点配置 =====
+# 当前启用的站点标识，用于动态路由前缀、模板目录、文章筛选
+# 对应 .env 中的 SITE_SLUG/SITE_NAME/SITE_DESCRIPTION
+SITE_SLUG = os.getenv('SITE_SLUG', 'youdaotools')
+SITE_NAME = os.getenv('SITE_NAME', '有道翻译')
+SITE_DESCRIPTION = os.getenv('SITE_DESCRIPTION', '')
+
+# 站点公开 URL（自动从 ALLOWED_HOSTS 推导，无需手动配置）
+# 规则：本地地址 → http://host:8000，外部域名 → https://host
+# 示例：ALLOWED_HOSTS=127.0.0.1 → http://127.0.0.1:8000
+#       ALLOWED_HOSTS=example.com → https://example.com
+_host = ALLOWED_HOSTS[0] if ALLOWED_HOSTS else '127.0.0.1'
+_is_local = _host in ('127.0.0.1', 'localhost', '0.0.0.0')
+SITE_URL = f'http://{_host}:8000' if _is_local else f'https://{_host}'

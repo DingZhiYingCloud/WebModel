@@ -1,0 +1,248 @@
+{% load static %}<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="{% static site_favicon_static %}">
+  <title>500 - 服务器开小差啦 | {{ site_name }}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #e8eaf6 0%, #e1f5fe 50%, #f1f8e9 100%);
+      overflow: hidden;
+    }
+
+    /* ===== 浮动装饰 ===== */
+    .float-deco {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0.15;
+      font-size: 2rem;
+      animation: floatUp 8s ease-in-out infinite;
+    }
+    .float-deco:nth-child(1) { left: 5%; top: 20%; animation-delay: 0s; }
+    .float-deco:nth-child(2) { left: 15%; top: 70%; animation-delay: 1.5s; }
+    .float-deco:nth-child(3) { right: 10%; top: 15%; animation-delay: 3s; }
+    .float-deco:nth-child(4) { right: 20%; top: 75%; animation-delay: 4.5s; }
+    .float-deco:nth-child(5) { left: 40%; top: 5%; animation-delay: 2s; }
+    .float-deco:nth-child(6) { right: 35%; bottom: 10%; animation-delay: 5s; }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(-10deg); }
+    }
+
+    /* ===== 主容器 ===== */
+    .container {
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 插图区域 ===== */
+    .illustration {
+      margin-bottom: 2rem;
+      animation: wobble 3s ease-in-out infinite;
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    /* ===== 大标题 500 ===== */
+    .error-code {
+      font-size: 6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe, #74b9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== 副标题 ===== */
+    .error-title {
+      font-size: 1.5rem;
+      color: #6c5ce7;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== 描述文字 ===== */
+    .error-desc {
+      font-size: 1rem;
+      color: #777;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== 返回按钮 ===== */
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+    }
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6);
+    }
+    .btn-home:active {
+      transform: translateY(0);
+    }
+
+    /* ===== 重试按钮 ===== */
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 32px;
+      background: #fff;
+      color: #6c5ce7;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid #6c5ce7;
+      margin-left: 12px;
+    }
+    .btn-retry:hover {
+      background: #f8f7ff;
+      transform: translateY(-2px);
+    }
+
+    /* ===== 底部小字 ===== */
+    .footer-text {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 480px) {
+      .error-code { font-size: 4rem; }
+      .error-title { font-size: 1.2rem; }
+      .error-desc { font-size: 0.9rem; }
+      .btn-retry { margin-left: 0; margin-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 浮动装饰 -->
+  <div class="float-deco">☁️</div>
+  <div class="float-deco">🔧</div>
+  <div class="float-deco">⚡</div>
+  <div class="float-deco">🌈</div>
+  <div class="float-deco">💊</div>
+  <div class="float-deco">🛠️</div>
+
+  <div class="container">
+
+    <!-- 可爱小恐龙修服务器插图 -->
+    <div class="illustration">
+      <svg width="240" height="200" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 小恐龙身体 -->
+        <ellipse cx="120" cy="130" rx="50" ry="40" fill="#A8E6CF"/>
+        <!-- 小恐龙头部 -->
+        <circle cx="120" cy="75" r="35" fill="#A8E6CF"/>
+        <!-- 头顶小角 -->
+        <polygon points="105,45 110,25 115,45" fill="#7BC89C"/>
+        <polygon points="120,42 125,20 130,42" fill="#7BC89C"/>
+        <polygon points="135,47 138,30 142,50" fill="#7BC89C"/>
+        <!-- 眼睛（困倦的大眼） -->
+        <ellipse cx="108" cy="72" rx="9" ry="10" fill="#333"/>
+        <ellipse cx="132" cy="72" rx="9" ry="10" fill="#333"/>
+        <!-- 眼睛高光 -->
+        <circle cx="112" cy="68" r="3.5" fill="#fff"/>
+        <circle cx="136" cy="68" r="3.5" fill="#fff"/>
+        <!-- 困倦眼皮 -->
+        <path d="M99 64 Q108 70 117 64" stroke="#A8E6CF" stroke-width="4" fill="#A8E6CF"/>
+        <path d="M123 64 Q132 70 141 64" stroke="#A8E6CF" stroke-width="4" fill="#A8E6CF"/>
+        <!-- 嘴巴（努力的微笑） -->
+        <path d="M112 85 Q120 92 128 85" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- 腮红 -->
+        <ellipse cx="96" cy="82" rx="7" ry="5" fill="#FFB7B7" opacity="0.5"/>
+        <ellipse cx="144" cy="82" rx="7" ry="5" fill="#FFB7B7" opacity="0.5"/>
+        <!-- 小手臂（拿着扳手） -->
+        <ellipse cx="80" cy="120" rx="10" ry="6" fill="#A8E6CF" transform="rotate(-20 80 120)"/>
+        <ellipse cx="160" cy="120" rx="10" ry="6" fill="#A8E6CF" transform="rotate(20 160 120)"/>
+        <!-- 扳手 -->
+        <g transform="translate(60, 105) rotate(-30)">
+          <rect x="0" y="0" width="5" height="25" rx="2" fill="#888"/>
+          <circle cx="2.5" cy="0" r="6" fill="#888"/>
+          <circle cx="2.5" cy="0" r="3" fill="#A8E6CF"/>
+        </g>
+        <!-- 小脚 -->
+        <ellipse cx="95" cy="165" rx="15" ry="8" fill="#7BC89C"/>
+        <ellipse cx="145" cy="165" rx="15" ry="8" fill="#7BC89C"/>
+        <!-- 尾巴 -->
+        <path d="M170 130 Q190 120 195 140 Q198 150 185 148" fill="#A8E6CF"/>
+        <!-- 肚皮 -->
+        <ellipse cx="120" cy="140" rx="30" ry="22" fill="#C8F7DC" opacity="0.6"/>
+        <!-- 汗珠（努力修理中） -->
+        <path d="M155 55 Q153 62 155 65 Q157 62 155 55" fill="#87CEEB" opacity="0.7"/>
+        <path d="M162 60 Q160 66 162 68 Q164 66 162 60" fill="#87CEEB" opacity="0.5"/>
+        <!-- 齿轮装饰 -->
+        <g transform="translate(180, 40)" opacity="0.3">
+          <circle cx="0" cy="0" r="12" fill="none" stroke="#888" stroke-width="3"/>
+          <circle cx="0" cy="0" r="4" fill="#888"/>
+          <line x1="0" y1="-12" x2="0" y2="-16" stroke="#888" stroke-width="3"/>
+          <line x1="0" y1="12" x2="0" y2="16" stroke="#888" stroke-width="3"/>
+          <line x1="-12" y1="0" x2="-16" y2="0" stroke="#888" stroke-width="3"/>
+          <line x1="12" y1="0" x2="16" y2="0" stroke="#888" stroke-width="3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="error-code">500</div>
+    <div class="error-title">服务器开小差啦 ~</div>
+    <div class="error-desc">
+      小恐龙正在努力修理服务器中 🔧<br>
+      稍等一会儿再试试吧，它很快就会搞定的！
+    </div>
+
+    <a href="{% url 'site_index' %}" class="btn-home">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      回到首页
+    </a>
+    <a href="javascript:location.reload()" class="btn-retry">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+      刷新重试
+    </a>
+
+    <div class="footer-text">
+      {{ site_name }} &copy; 2026
+    </div>
+  </div>
+
+</body>
+</html>
