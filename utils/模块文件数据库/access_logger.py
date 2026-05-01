@@ -125,7 +125,7 @@ class AccessLogger:
         enabled: 是否启用日志
     """
 
-    LOG_FIELDS = ['timestamp', 'domain', 'ip', 'method', 'path', 'status_code', 'duration', 'user_agent']
+    LOG_FIELDS = ['timestamp', 'domain', 'ip', 'method', 'path', 'status_code', 'duration', 'user_agent', 'referer', 'content_type', 'get_params', 'post_data', 'files']
 
     def __init__(self,
                  log_path: Optional[str] = None,

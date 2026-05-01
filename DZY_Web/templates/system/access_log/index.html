@@ -230,6 +230,111 @@
             background: #f8f9fa;
         }
 
+        .detail-btn {
+            padding: 5px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-close {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .detail-value {
+            word-break: break-all;
+        }
+
+        .params-box {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            background: #e8f5e9;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .has-detail {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #f39c12;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+
         .status-2xx {
             color: #27ae60;
             font-weight: 600;
@@ -380,12 +485,24 @@
                         <th>状态</th>
                         <th>耗时</th>
                         <th>User-Agent</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody id="logsTableBody">
                 </tbody>
             </table>
             <div class="pagination" id="pagination">
+            </div>
+        </div>
+    </div>
+
+    <div id="detailModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔍 请求详情</h3>
+                <button class="modal-close" onclick="closeModal()">关闭</button>
+            </div>
+            <div id="detailContent">
             </div>
         </div>
     </div>
@@ -540,20 +657,96 @@
             const start = (currentPage - 1) * pageSize;
             const pageLogs = filteredLogs.slice(start, start + pageSize);
 
-            tbody.innerHTML = pageLogs.map(l => `
+            tbody.innerHTML = pageLogs.map((l, i) => {
+                const hasDetail = l.get_params || l.post_data || l.files || l.referer;
+                return `
                 <tr>
                     <td>${l.timestamp}</td>
                     <td>${l.domain || '-'}</td>
                     <td>${l.ip}</td>
                     <td class="method-${l.method.toLowerCase()}">${l.method}</td>
-                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;" title="${l.path}">${l.path}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;" title="${l.path}">
+                        ${l.path}
+                        ${hasDetail ? '<span class="has-detail" title="包含请求详情"></span>' : ''}
+                    </td>
                     <td class="status-${Math.floor(l.status_code / 100)}xx">${l.status_code}</td>
                     <td>${Math.round(l.duration * 1000)}ms</td>
                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: #666;" title="${l.user_agent}">${l.user_agent || '-'}</td>
+                    <td><button class="detail-btn" onclick="showDetail(${start + i})">详情</button></td>
                 </tr>
-            `).join('');
+            `}).join('');
 
             renderPagination();
+        }
+
+        function showDetail(index) {
+            const log = filteredLogs[index];
+            const content = document.getElementById('detailContent');
+            let html = '';
+
+            html += '<div class="detail-section">';
+            html += '<h4>📋 基本信息</h4>';
+            html += `<div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">${log.timestamp}</span></div>`;
+            html += `<div class="detail-row"><span class="detail-label">域名</span><span class="detail-value">${log.domain || '-'}</span></div>`;
+            html += `<div class="detail-row"><span class="detail-label">IP</span><span class="detail-value">${log.ip}</span></div>`;
+            html += `<div class="detail-row"><span class="detail-label">方法</span><span class="detail-value">${log.method}</span></div>`;
+            html += `<div class="detail-row"><span class="detail-label">路径</span><span class="detail-value">${log.path}</span></div>`;
+            html += `<div class="detail-row"><span class="detail-label">状态码</span><span class="detail-value">${log.status_code}</span></div>`;
+            html += `<div class="detail-row"><span class="detail-label">耗时</span><span class="detail-value">${Math.round(log.duration * 1000)}ms</span></div>`;
+            html += '</div>';
+
+            if (log.referer) {
+                html += '<div class="detail-section">';
+                html += '<h4>🔗 来源页面</h4>';
+                html += `<div class="detail-value" style="word-break: break-all;">${log.referer}</div>`;
+                html += '</div>';
+            }
+
+            if (log.content_type) {
+                html += '<div class="detail-section">';
+                html += '<h4>📝 Content-Type</h4>';
+                html += `<div class="detail-value">${log.content_type}</div>`;
+                html += '</div>';
+            }
+
+            if (log.get_params) {
+                html += '<div class="detail-section">';
+                html += '<h4>🔍 GET 参数</h4>';
+                html += `<div class="params-box">${JSON.stringify(log.get_params, null, 2)}</div>`;
+                html += '</div>';
+            }
+
+            if (log.post_data) {
+                html += '<div class="detail-section">';
+                html += '<h4>📦 POST 数据</h4>';
+                html += `<div class="params-box">${typeof log.post_data === 'object' ? JSON.stringify(log.post_data, null, 2) : log.post_data}</div>`;
+                html += '</div>';
+            }
+
+            if (log.files && log.files.length > 0) {
+                html += '<div class="detail-section">';
+                html += '<h4>📁 上传文件 (' + log.files.length + ')</h4>';
+                log.files.forEach(f => {
+                    const sizeKB = Math.round(f.size / 1024);
+                    html += `<div class="file-item">
+                        <strong>${f.field}</strong>: ${f.name} 
+                        <span style="color: #666;">(${sizeKB} KB, ${f.content_type})</span>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+
+            html += '<div class="detail-section">';
+            html += '<h4>🌐 User-Agent</h4>';
+            html += `<div class="detail-value" style="font-size: 12px; color: #666;">${log.user_agent || '-'}</div>`;
+            html += '</div>';
+
+            content.innerHTML = html;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
         }
 
         function renderPagination() {
