@@ -502,6 +502,7 @@
         function updateDomainFilter() {
             const domains = [...new Set(allLogs.map(l => l.domain))].filter(d => d);
             const select = document.getElementById('filterDomain');
+            select.innerHTML = '<option value="">全部域名</option>';
             domains.forEach(d => {
                 const opt = document.createElement('option');
                 opt.value = d;
