@@ -2,22 +2,32 @@
 
 > 作者：DingZhiYing
 
+## v1.0.1
+
+### 访问日志插件正式上线
+
+新增 `access_logger` 访问日志插件，全方位监控网站流量：
+
+- ✅ **Django中间件自动记录** - 路径、方法、IP、UA、状态码、耗时、域名
+- ✅ **终端彩色实时输出** - 状态码/请求方法分色显示
+- ✅ **按大小自动切割** - 单文件10MB，GZIP压缩备份，保留5份
+- ✅ **自动排除静态资源** - .css/.js/.png/.ico等自动跳过
+- ✅ **密码保护可视化面板** - `/web/{SITE_SLUG}/access-log/`
+- ✅ **图表统计** - 小时请求趋势、状态码分布（Chart.js）
+- ✅ **5维筛选** - 域名、状态码、方法、日期、IP地址
+- ✅ **命令行工具** - `--view` 查看、`--stats` 统计
+
+### web-clone v3.0 策略升级
+
+CSS文件下载替代CSS规则提取，彻底解决AI上下文爆炸：
+
+- 🔄 浏览器端收集 `<link>` 和 `<style>` 标签
+- 📥 Node.js端直接下载CSS文件到本地
+- 🔗 通过 `<link>` 标签引入，不经过AI上下文
+- ✅ 支持 `@media`、`@keyframes` 等所有原始CSS规则
+
 ## v1.0.0
 
 ### WebModel 正式发布
 
 WebModel v1.0.0 正式发布。目标：通过智能 AI 技术接管网站——从网页克隆、Django 动态化到 SEO 内容发布，全程无需手写代码。
-
-## v0.1.1
-
-### SITE_URL 由 ALLOWED_HOSTS 自动推导
-
-移除 `.env` 中独立的 `SITE_URL` 配置项，改为 `settings.py` 从 `ALLOWED_HOSTS` 首条自动推导，消除重复配置。
-
-### 站点地图插件上线
-
-新增 `sitemap_generator` 插件，访问 `/web/{SITE_SLUG}/sitemap.xml` 动态生成当前站点全部文章的 XML sitemap。
-
-### 项目初始化为纯净框架
-
-清除 youdaotools 站点的全部模板、静态资源、媒体文件和数据库，重置 `.env` 为通用模板，合并迁移文件至 `0001_initial`。

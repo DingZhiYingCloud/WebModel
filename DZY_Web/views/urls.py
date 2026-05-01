@@ -21,4 +21,5 @@ urlpatterns = [
     path(f'{site_slug}/news/', request.site_news, name='site_news'),
     path(f'{site_slug}/news/<int:article_id>/', request.site_detail, name='site_detail'),
     path(f'{site_slug}/sitemap.xml', request.site_sitemap, name='site_sitemap'),
+    path(f'{site_slug}/access-log/', request.site_access_log, name='site_access_log'),
 ]

@@ -122,3 +122,36 @@ def site_sitemap(request):
     xml_string = gen.generate(article_data)
 
     return HttpResponse(xml_string, content_type='application/xml')
+
+
+# 加载 access_logger 模块
+from access_logger import AccessLogger
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def site_access_log(request):
+    """访问日志监控页面 - 密码保护的可视化界面
+
+    访问 /web/{SITE_SLUG}/access-log/ 即可进入。
+    支持按域名过滤、实时图表、状态统计。
+    """
+    site_slug = _get_site_slug()
+    logger = AccessLogger()
+
+    if request.method == 'POST':
+        password = request.POST.get('password', '')
+        if logger.verify_password(password):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+
+    if request.GET.get('api') == '1':
+        domain = request.META.get('HTTP_HOST', '')
+        logs, _ = logger.get_logs(domain=domain, limit=10000)
+        stats = logger.get_statistics(domain=domain)
+        return JsonResponse({'logs': logs, 'stats': stats})
+
+    return render(request, 'system/access_log/index.html')
+
