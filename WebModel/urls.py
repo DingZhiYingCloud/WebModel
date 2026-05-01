@@ -6,9 +6,11 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.views.static import serve
 from DZY_Web.views.error_handlers import custom_404, custom_500
+from DZY_Web.views.request import site_sitemap
 
 urlpatterns = [
     path('', RedirectView.as_view(url=f'/web/{settings.SITE_SLUG}/', permanent=False), name='root_redirect'),
+    path('sitemap.xml', site_sitemap, name='sitemap'),
     path('admin/', admin.site.urls),
     path('api/', include('DZY_API.apis.urls')),
     path('web/', include('DZY_Web.views.urls')),

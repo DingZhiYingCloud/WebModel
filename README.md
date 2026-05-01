@@ -157,7 +157,8 @@ python manage.py runserver 0.0.0.0:8000
 | 新闻列表 | `/web/{SITE_SLUG}/news/` | 分页展示所有文章 |
 | 文章详情 | `/web/{SITE_SLUG}/news/<id>/` | 文章内容 + 上下篇导航 |
 | FAQ | `/web/{SITE_SLUG}/faq/` | 常见问题 |
-| 站点地图 | `/web/{SITE_SLUG}/sitemap.xml` | XML sitemap（搜索引擎用） |
+| 站点地图 | `/sitemap.xml` | XML sitemap（搜索引擎用） |
+| 访问日志 | `/web/{SITE_SLUG}/access-log/` | 请求监控面板（密码保护） |
 
 | API | URL | 说明 |
 |-----|-----|------|

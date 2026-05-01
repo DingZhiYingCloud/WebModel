@@ -99,9 +99,11 @@ def site_detail(request, article_id):
 def site_sitemap(request):
     """站点地图 - 动态生成当前站点的 XML sitemap
 
-    访问 /web/{SITE_SLUG}/sitemap.xml 即可获取。
-    包含当前站点所有文章详情页的 <loc>、<lastmod> 等信息。
-    SITE_URL 由 settings 从 ALLOWED_HOSTS 自动推导，无需手动配置。
+    标准访问路径: /sitemap.xml（根目录）
+    兼容路径:     /web/{SITE_SLUG}/sitemap.xml
+
+    输出符合 sitemaps.org 协议的标准 XML sitemap，
+    包含所有文章URL、最后修改时间、更新频率、优先级。
     """
     site_slug = _get_site_slug()
     site_url = settings.SITE_URL
