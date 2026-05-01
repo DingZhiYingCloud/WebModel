@@ -280,7 +280,16 @@ class AccessLogger:
             'status_code': int(data['status_code']),
             'duration': float(data.get('duration', 0)),
             'user_agent': data.get('user_agent', '')[:500],
+            'referer': data.get('referer', ''),
+            'content_type': data.get('content_type', ''),
         }
+
+        if data.get('get_params'):
+            log_entry['get_params'] = data['get_params']
+        if data.get('post_data'):
+            log_entry['post_data'] = data['post_data']
+        if data.get('files'):
+            log_entry['files'] = data['files']
 
         self._rotate()
 
